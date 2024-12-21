@@ -11,7 +11,7 @@ const app = new Elysia()
   name: "jwt",
   secret: "secret",
 })).get("/", () => "Hello Elysia")
-.post("/api/user/signin", UserController.singeIn)
+.post("/api/user/singin", UserController.signIn)
 .put("/api/user/update", UserController.update)
 .listen(3001);
 

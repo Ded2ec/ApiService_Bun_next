@@ -3,19 +3,18 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const UserController = {
-    singeIn: async ({body,jwt}: {
+    signIn: async ({ body, jwt }: {
         body: {
-            username: string, 
+            username: string;
             password: string
-        }, jwt: any}) => {
+        }; jwt: any
+    }) => {
         try {
             const user = await prisma.user.findUnique({
                 select: {
                     id: true,
                     username: true,
-                    password: true,
-                    level: true,
-                    status: true
+                    level: true
                 },
                 where: {
                     username: body.username,
@@ -23,18 +22,17 @@ export const UserController = {
                     status: "active"
                 }
             })
+
             if (!user) {
-                return {message: "Invalid username or password"}
+                return { message: "Invalid username or password" }
             }
-            const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: "1h"})
-            return {
-                message: "Login successful",
-                token: token
-            }
-        } catch (error: any) {
-            throw new Error(error.message)
+
+            const token = await jwt.sign(user);
+
+            return { user, token };
+        } catch (error) {
+            return error;
         }
-             
     },
     update: async ({ body, request, jwt }: {
         body: {

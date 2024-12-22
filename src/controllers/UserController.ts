@@ -91,6 +91,7 @@ export const UserController = {
          username: string;
           password: string;
         level: string;
+        sectionId: string;
         } }) => {
             try {
                 await prisma.user.create({
@@ -107,7 +108,7 @@ export const UserController = {
                 username: string;
                 password: string;
                 level: string;
-                // sectionId: number;
+                sectionId: string;
             },
             params: {
                 id: string;
@@ -123,7 +124,7 @@ export const UserController = {
                     username: body.username,
                     password: body.password == '' ? oldUser?.password : body.password,
                     level: body.level,
-                    // sectionId: body.sectionId
+                    sectionId: body.sectionId
                 }
     
                 await prisma.user.update({
@@ -136,4 +137,22 @@ export const UserController = {
                 return error;
             }
     },
+    remove: async ({ params }: { 
+        params: { 
+            id: string; 
+        } 
+    }) => {
+        try {
+            await prisma.user.update({ 
+                where: { id: parseInt(params.id) 
+                },
+                data: { 
+                    status: "inactive" 
+                }
+             });
+            return { message: "Delete success" };
+        } catch (error) {
+            return error;
+        }
+    }
 };

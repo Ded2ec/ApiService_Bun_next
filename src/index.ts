@@ -4,6 +4,8 @@ import { jwt } from "@elysiajs/jwt";
 import { cors } from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { DeviceController } from "./controllers/DeviceController";
+import { DepartmentController } from "./controllers/DepartmentController";
+import { SectionController } from "./controllers/SecConTroller";
 
 const app = new Elysia()
 .use(swagger())
@@ -17,6 +19,14 @@ const app = new Elysia()
 .get("/api/user/list", UserController.list)
 .post("/api/user/create", UserController.create)
 .put("/api/user/updateUser/:id", UserController.updateUser)
+.delete("/api/user/remove/:id", UserController.remove)
+
+//department
+.get("/api/department/list", DepartmentController.list)
+
+//section
+.get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)
+
 //device
 .post("/api/device/create", DeviceController.create)
 .get("/api/device/list", DeviceController.list)

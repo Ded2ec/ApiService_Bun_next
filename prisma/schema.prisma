@@ -22,3 +22,14 @@ model User {
   status String @default("active") // active, inactive
 }
 
+model Device {
+  id           Int            @id @default(autoincrement())
+  name         String
+  barcode      String
+  serial       String
+  expireDate   DateTime
+  remark       String?
+  status       String         @default("active") // active, inactive
+  createdAt    DateTime       @default(now())
+  
+}

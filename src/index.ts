@@ -3,6 +3,7 @@ import { UserController } from "./controllers/UserController";
 import { jwt } from "@elysiajs/jwt";
 import { cors } from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
+import { DeviceController } from "./controllers/DeviceController";
 
 const app = new Elysia()
 .use(swagger())
@@ -13,6 +14,11 @@ const app = new Elysia()
 })).get("/", () => "Hello Elysia")
 .post("/api/user/singin", UserController.signIn)
 .put("/api/user/update", UserController.update)
+//device
+.post("/api/device/create", DeviceController.create)
+.get("/api/device/list", DeviceController.list)
+.put("/api/device/update/:id", DeviceController.update)
+.delete("/api/device/remove/:id", DeviceController.remove)
 .listen(3001);
 
 console.log(

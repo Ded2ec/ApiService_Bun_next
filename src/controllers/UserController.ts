@@ -76,9 +76,11 @@ export const UserController = {
                 section: {
                     select: {
                         name: true,
+                        id: true,
                     department: {
                         select: {
-                            name: true
+                            name: true,
+                            id: true
                         }
                     }
                 }
@@ -170,7 +172,7 @@ export const UserController = {
             return error;
         }
     },
-    async checkUsername({ params }: { params: { username: string } }) {
+    checkUsername: async({ params }: { params: { username: string } }) => {
         try {
             const user = await prisma.user.findFirst({
                 where: { 

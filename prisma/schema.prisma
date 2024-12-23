@@ -22,6 +22,7 @@ model User {
   status String @default("active") // active, inactive  
   sectionId Int?
   section Section? @relation(fields: [sectionId], references: [id])
+  repairRecords RepairRecord[]
   }
 
 model Device {
@@ -33,6 +34,7 @@ model Device {
   remark       String?
   status       String         @default("active") // active, inactive
   createdAt    DateTime       @default(now())
+   repairRecords RepairRecord[]
 }
 // แผนก
 model Department {
@@ -52,4 +54,27 @@ model Section {
   status       String     @default("active") // active, inactive
   createdAt    DateTime   @default(now())
   users        User[]
+}
+
+model RepairRecord {
+  id                Int       @id @default(autoincrement())
+  customerName      String
+  customerPhone     String
+  deviceName        String
+  deviceBarcode     String
+  deviceSerial      String
+  problem           String
+  solving           String
+  deviceId          Int?
+  device            Device?   @relation(fields: [deviceId], references: [id])
+  userId            Int?
+  user              User?     @relation(fields: [userId], references: [id])
+  engineerId        Int?
+  status            String    @default("active") // active, inactive
+  createdAt         DateTime  @default(now())
+  endJobDate        DateTime?
+  payDate           DateTime?
+  amount            Int?
+  imageBeforeRepair String?
+  imageAfterRepair  String?
 }

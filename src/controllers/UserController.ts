@@ -72,7 +72,17 @@ export const UserController = {
                 select: {
                     id: true,
                 username: true,
-                level: true
+                level: true,
+                section: {
+                    select: {
+                        name: true,
+                    department: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+                },
             },
             where: {
                 status: "active"
@@ -95,7 +105,12 @@ export const UserController = {
         } }) => {
             try {
                 await prisma.user.create({
-                    data: body
+                    data: {
+                        username: body.username,
+                        password: body.password,
+                        level: body.level,
+                        sectionId: parseInt(body.sectionId)
+                    }
                 })
 
                 return { message: "success" }
@@ -124,7 +139,7 @@ export const UserController = {
                     username: body.username,
                     password: body.password == '' ? oldUser?.password : body.password,
                     level: body.level,
-                    sectionId: body.sectionId
+                    sectionId: parseInt(body.sectionId)
                 }
     
                 await prisma.user.update({
@@ -151,6 +166,22 @@ export const UserController = {
                 }
              });
             return { message: "Delete success" };
+        } catch (error) {
+            return error;
+        }
+    },
+    async checkUsername({ params }: { params: { username: string } }) {
+        try {
+            const user = await prisma.user.findFirst({
+                where: { 
+                    username: params.username,
+                    status: "active"
+                }
+            });
+            
+            // ถ้าเจอ user จะ return true (มีซ้ำ)
+            // ถ้าไม่เจอ user จะ return false (ไม่ซ้ำ)
+            return user ? true : false;
         } catch (error) {
             return error;
         }

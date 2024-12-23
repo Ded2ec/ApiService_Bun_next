@@ -20,6 +20,8 @@ const app = new Elysia()
 .post("/api/user/create", UserController.create)
 .put("/api/user/updateUser/:id", UserController.updateUser)
 .delete("/api/user/remove/:id", UserController.remove)
+.get("/api/user/checkUsername/:username", UserController.checkUsername)
+
 
 //department
 .get("/api/department/list", DepartmentController.list)

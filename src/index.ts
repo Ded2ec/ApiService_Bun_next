@@ -6,6 +6,7 @@ import swagger from "@elysiajs/swagger";
 import { DeviceController } from "./controllers/DeviceController";
 import { DepartmentController } from "./controllers/DepartmentController";
 import { SectionController } from "./controllers/SecConTroller";
+import { RepairRecordController } from "./controllers/RepairRecordController";
 
 const app = new Elysia()
 .use(swagger())
@@ -25,6 +26,10 @@ const app = new Elysia()
 
 //department
 .get("/api/department/list", DepartmentController.list)
+
+//repair record
+.get("/api/repairRecord/list", RepairRecordController.list)
+.post("/api/repairRecord/create", RepairRecordController.create)
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

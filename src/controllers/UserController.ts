@@ -46,7 +46,7 @@ export const UserController = {
             const headers = request.headers.get("Authorization");
             const token = headers?.split(" ")[1];
             const payload = await jwt.verify(token);
-            const id = payload.id;
+            const id = payload.id; 
             const oldUser = await prisma.user.findUnique({
                 where: { id }
             })

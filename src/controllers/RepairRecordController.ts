@@ -107,6 +107,7 @@ export const RepairRecordController = {
         body: {
             status: string;
             soviet: string;
+            engineerId: string;
         },
         params: { id: string }
     }) => {

@@ -46,6 +46,65 @@ export const RepairRecordController = {
             return error;
         }
     },
-    
+    checkDeviceSerial: async({ params }: { params: { deviceSerial: string } }) => {
+        try {
+            const RepairRecord = await prisma.RepairRecord.findFirst({
+                where: { 
+                    deviceSerial: params.deviceSerial,
+                    
+                }
+            });
+            
+            // ถ้าเจอ user จะ return true (มีซ้ำ)
+            // ถ้าไม่เจอ user จะ return false (ไม่ซ้ำ)
+            return RepairRecord ? true : false;
+        } catch (error) {
+            return error;
+        }
+    },
+    update: async ({ params, body }: {
+        body: {
+            costomerName: string;
+            costomerPhone: string;
+            deviceName: string;
+            deviceId?: number;
+            deviceBarcode: string;
+            deviceSerial?: string;
+            problem: string;
+            soviet?: string;
+            expireDate?: Date;
+        },
+        params: { id: string }
+    }) => {
+        try {
+             await prisma.repairRecord.update({
+                where: { 
+                    id: parseInt(params.id) 
+                },
+                data: body
+            });
+            return { message: "success" };
+        } catch (error) {
+            return error;
+        }
+    },
+    remove: async ({ params }: { 
+        params: { 
+            id: string; 
+        } 
+    }) => {
+        try {
+            await prisma.repairRecord.update({ 
+                where: { id: parseInt(params.id) 
+                },
+                data: { 
+                    status: "inactive" 
+                }
+             });
+            return { message: "Delete success" };
+        } catch (error) {
+            return error;
+        }
+    },
 }
 

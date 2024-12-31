@@ -30,6 +30,9 @@ const app = new Elysia()
 //repair record
 .get("/api/repairRecord/list", RepairRecordController.list)
 .post("/api/repairRecord/create", RepairRecordController.create)
+.get("/api/repairRecord/checkDeviceSerial/:deviceSerial", RepairRecordController.checkDeviceSerial)
+.put("/api/repairRecord/update/:id", RepairRecordController.update)
+.delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

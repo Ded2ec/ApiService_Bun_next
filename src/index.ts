@@ -22,6 +22,8 @@ const app = new Elysia()
 .put("/api/user/updateUser/:id", UserController.updateUser)
 .delete("/api/user/remove/:id", UserController.remove)
 .get("/api/user/checkUsername/:username", UserController.checkUsername)
+.get("/api/user/listEngineer", UserController.listEngineer)
+
 
 
 //department
@@ -33,6 +35,7 @@ const app = new Elysia()
 .get("/api/repairRecord/checkDeviceSerial/:deviceSerial", RepairRecordController.checkDeviceSerial)
 .put("/api/repairRecord/update/:id", RepairRecordController.update)
 .delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
+.put("/api/repairRecord/updateStatus/:id", RepairRecordController.updateStatus)
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

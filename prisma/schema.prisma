@@ -79,3 +79,14 @@ model RepairRecord {
   imageAfterRepair  String?
   expireDate        DateTime?
 }
+
+// บริษัท
+model Company {
+  id           Int     @id @default(autoincrement())
+  name         String
+  address      String
+  phone        String
+  email        String
+  facebookPage String?
+  taxCode      String
+}

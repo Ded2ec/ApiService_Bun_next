@@ -7,6 +7,7 @@ import { DeviceController } from "./controllers/DeviceController";
 import { DepartmentController } from "./controllers/DepartmentController";
 import { SectionController } from "./controllers/SecConTroller";
 import { RepairRecordController } from "./controllers/RepairRecordController";
+import { CompanyController } from "./controllers/CompanyController";
 
 const app = new Elysia()
 .use(swagger())
@@ -25,7 +26,11 @@ const app = new Elysia()
 .get("/api/user/listEngineer", UserController.listEngineer)
 
 
-
+ //
+  // company
+  //
+  .get("/api/company/info", CompanyController.info)//, { beforeHandle: checkSignIn }) // use middleware to check token
+  .put("/api/company/update", CompanyController.update)
 //department
 .get("/api/department/list", DepartmentController.list)
 
@@ -36,6 +41,8 @@ const app = new Elysia()
 .put("/api/repairRecord/update/:id", RepairRecordController.update)
 .delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
 .put("/api/repairRecord/updateStatus/:id", RepairRecordController.updateStatus)
+.put("/api/repairRecord/recive", RepairRecordController.recive)
+.get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

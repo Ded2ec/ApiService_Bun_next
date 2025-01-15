@@ -43,6 +43,7 @@ const app = new Elysia()
 .put("/api/repairRecord/updateStatus/:id", RepairRecordController.updateStatus)
 .put("/api/repairRecord/recive", RepairRecordController.recive)
 .get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
+.get('/api/repairRecord/dashboard', RepairRecordController.dashboard) // API แสดงข้อมูลสรุปรายการซ่อม
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

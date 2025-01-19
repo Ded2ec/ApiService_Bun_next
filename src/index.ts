@@ -9,6 +9,29 @@ import { SectionController } from "./controllers/SecConTroller";
 import { RepairRecordController } from "./controllers/RepairRecordController";
 import { CompanyController } from "./controllers/CompanyController";
 
+// Middleware
+
+const checkSignIn = async ({ jwt, request, set }: any) => {
+  const token = request.headers.get("Authorization")?.split(" ")[1]; // Bearer token "Bearer 38j838j838j838j838j838j8"
+
+  if (!token) {
+    set.status = 401;
+     return 'Unauthorized';
+      }
+  
+      const payload = await jwt.verify(token, 'secret');
+
+  if (!payload) {
+    set.status = 401;
+    return 'Unauthorized';
+  }
+};
+
+
+
+
+
+
 const app = new Elysia()
 .use(swagger())
 .use(cors())
@@ -24,12 +47,13 @@ const app = new Elysia()
 .delete("/api/user/remove/:id", UserController.remove)
 .get("/api/user/checkUsername/:username", UserController.checkUsername)
 .get("/api/user/listEngineer", UserController.listEngineer)
+.get("/api/user/level", UserController.level)
 
 
- //
+ // 
   // company
   //
-  .get("/api/company/info", CompanyController.info)//, { beforeHandle: checkSignIn }) // use middleware to check token
+  .get("/api/company/info", CompanyController.info, { beforeHandle: checkSignIn }) // use middleware to check token
   .put("/api/company/update", CompanyController.update)
 //department
 .get("/api/department/list", DepartmentController.list)
@@ -44,6 +68,7 @@ const app = new Elysia()
 .put("/api/repairRecord/recive", RepairRecordController.recive)
 .get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
 .get('/api/repairRecord/dashboard', RepairRecordController.dashboard) // API แสดงข้อมูลสรุปรายการซ่อม
+.get('/api/repairRecord/incomePerMonth', RepairRecordController.incomePerMonth)
 
 //section
 .get("/api/section/listByDepartment/:departmentId", SectionController.listByDepartment)

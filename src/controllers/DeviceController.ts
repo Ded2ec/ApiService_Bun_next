@@ -21,17 +21,31 @@ export const DeviceController = {
     },
 
 
-list: async () => {
+list: async ( { query }:{ query:  {
+        page: string;
+        pageSize: string;
+    }}) => {
+    
     try {
+        const page = parseInt(query.page);
+        const pageSize = parseInt(query.pageSize);
+        const total = await prisma.device.count({
+            where:{
+                status:'active'
+            }
+        });
+        const totalPage = Math.ceil(total/pageSize)
         const devices = await prisma.device.findMany({
-        where:{
-            status:'active'
-        },
-        orderBy:{
-            id:'desc'
-        }
-    });
-        return devices;
+            where:{
+                status:'active'
+            },
+            orderBy:{
+                id:'desc'
+            },
+            skip: (page - 1) * pageSize,
+            take: pageSize
+        });
+        return { results: devices, total, totalPage };
     } catch (error) {
         return { message: "Failed to list devices", error };
     }
